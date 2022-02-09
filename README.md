@@ -2,8 +2,6 @@
 
 I was bored and decided to try my luck with command line interface. This is the first of the two projects I have planned on this endeavour. A very simple CLI.
 
-<img src="https://i.imgur.com/5eATRL1.png" />
-
 ```console
 
 ./todo.js <command>

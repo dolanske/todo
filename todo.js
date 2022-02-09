@@ -69,33 +69,73 @@ const usage = function () {
  *
  */
 
-const args = process.argv
-const cmd = args[2]
-const param = args[3]
+const args = process.argv.slice(2)
+
+let parameters = []
+const modelArgs = args.slice(1)
+let i = 0
+
+// Normalizes command parameters + values
+for (const argument of modelArgs) {
+  if (argument.startsWith("--")) {
+    // Get attribute name without the dahes
+    const param = argument.replace("--", "")
+
+    // If argument is used without a value, it is assumed it's a boolean
+    const arg = modelArgs[i + 1]
+    let value
+
+    if (!arg || arg.startsWith("--")) {
+      value = true
+    } else if (arg) {
+      // Check if it's a string boolean and conver it if it is
+      if (arg === "true" || arg === "false") {
+        value = arg === "true"
+      } else {
+        value = arg
+      }
+    }
+
+    // Push parameter : value pair to the execute array
+    parameters.push([param, value])
+  }
+
+  i++
+}
+
+// If no -- arguments are provided, simply take the first argument
+if (parameters.length === 0) {
+  parameters = modelArgs[0]
+}
+
+const cmd = args[0]
+// const param = args[1]
+
+console.log(parameters)
 
 switch (cmd) {
   case "new": {
-    newTodo(param ? true : false)
+    newTodo(parameters, accepts({ param: ["--track", "--id"] }))
     break
   }
   case "get": {
-    getTodo(param)
+    getTodo(parameters, accepts({ param: ["--id"], value: [Number] }))
     break
   }
   case "done": {
-    doneTodo(param)
+    doneTodo(parameters, accepts({ param: ["--id"], value: [Number] }))
     break
   }
   case "track": {
-    trackTodo(param)
+    trackTodo(parameters, accepts({ param: ["--id"], value: [Number] }))
+    break
+  }
+  case "del": {
+    delTodo(parameters, accepts({ param: ["--id"], value: [Number] }))
     break
   }
   case "help": {
     usage()
-    break
-  }
-  case "del": {
-    delTodo(param)
     break
   }
   case "clear": {
@@ -122,7 +162,7 @@ async function clearTodo() {
   await db.write()
 }
 
-function newTodo(shouldTrack = false) {
+function newTodo(parameters, rules) {
   const q = chalk.blue("Type in your todo\n")
   prompt(q).then((todo) => {
     pushToDB({
@@ -168,14 +208,15 @@ function getTodo(index) {
           ${index + 1}. ${todo.title} [${isDone(todo.complete)}]
           
           ${formatDuration(todo)}
-          `
+        `
       })
       .join("\n")
 
     let output = `
-    ${chalk.bgMagenta.black("All todos:")}
+      ${chalk.bgMagenta.black("All todos:")}
 
-    ${items}`
+      ${items}
+    `
 
     console.log(output)
   }
@@ -199,8 +240,6 @@ async function doneTodo(index) {
   })
 
   db.data.todos[index] = item
-
-  console.log()
 
   await db.write()
 }
@@ -266,4 +305,8 @@ function isDone(status) {
     return chalk.green("Done")
   }
   return chalk.blue("In progress")
+}
+
+function accepts(options) {
+  const { value, param } = options
 }
