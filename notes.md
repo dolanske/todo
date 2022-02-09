@@ -10,3 +10,5 @@
 - [ ] Update documentation
 
 - [ ] Figure out if instead of `./todo.js` I could use `todo`
+
+- [ ] Add comments to all functions

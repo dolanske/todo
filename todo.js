@@ -111,7 +111,19 @@ if (parameters.length === 0) {
 const cmd = args[0]
 // const param = args[1]
 
-console.log(parameters)
+// console.log(parameters)
+
+/**
+ * TODO
+ *
+ * What's left to do.
+ *
+ * Figure out a way to check valid/invalid parameters and value checking
+ * Move the accepts function into the actual function and also make it accept the values.
+ * Such functions would then return the formatted parameters object OR object with an error message.
+ *
+ *
+ */
 
 switch (cmd) {
   case "new": {
