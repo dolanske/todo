@@ -94,14 +94,32 @@ switch (cmd) {
     usage()
     break
   }
+  case "del": {
+    delTodo(param)
+    break
+  }
   case "clear": {
-    clear()
-    brea
+    clearTodo()
+    break
   }
   default: {
     logErr("Invalid Command Passed")
     usage()
   }
+}
+
+async function delTodo(index) {
+  if (db.data.todos[index]) {
+    db.data.todos.splice(index, 1)
+  }
+
+  await db.write()
+}
+
+async function clearTodo() {
+  db.data.todos = []
+
+  await db.write()
 }
 
 function newTodo(shouldTrack = false) {

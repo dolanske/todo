@@ -1,13 +1,13 @@
 {
-  "name": "todo",
+  "name": "todo-cli",
   "version": "0.0.1",
-  "description": "",
+  "description": "Simple CLI todo list",
   "main": "todo.js",
   "type":"module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "https://github.com/dolanske",
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.0.0",
