@@ -1,3 +1,20 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "title": "Finish writing documentation",
+      "start_date": 1644417884465,
+      "complete_date": 1644417890439,
+      "duration": 5974,
+      "tracking": true,
+      "complete": true
+    },
+    {
+      "title": "This TODO tracks how long it takes it to complete",
+      "start_date": 1644417869475,
+      "complete_date": null,
+      "duration": null,
+      "tracking": true,
+      "complete": false
+    }
+  ]
 }
